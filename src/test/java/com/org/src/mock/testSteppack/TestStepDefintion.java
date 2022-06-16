@@ -5,7 +5,6 @@ import io.cucumber.java.Before;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
-import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
@@ -18,8 +17,9 @@ public class TestStepDefintion {
 
     @Before
     public void setUp() {
+        System.setProperty("webdriver.chrome.driver",
+                Paths.get("src/main/resources/webdrivers/chrome/chromedriver.exe").toString());
         if (driver == null) {
-            WebDriverManager.chromedriver().setup();
             driver = new ChromeDriver();
             driver.manage().window().maximize();
         }
