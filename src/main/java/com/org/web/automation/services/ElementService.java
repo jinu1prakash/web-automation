@@ -41,4 +41,20 @@ public class ElementService {
     {
         return !driver.findElements(By.xpath(xpath)).isEmpty();
     }
+
+    public boolean containsText(String text){
+        try{
+            if(WaitService.PAGESOURCE.contains(text)){
+             return true;
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public void openBrowser(String webPage){
+        driver.navigate().to(webPage);
+    }
+
 }

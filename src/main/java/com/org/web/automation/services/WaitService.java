@@ -13,6 +13,7 @@ import java.time.Duration;
 public class WaitService {
     public WebDriverWait webDriverWait;
     private WebDriver driver;
+    public static String PAGESOURCE;
 
     public WaitService(){
         this.driver = ManageWebDriver.getDriver();
@@ -76,6 +77,7 @@ public class WaitService {
        try{
            webDriverWait = getWebDriverWait();
            WebElement element;
+           PAGESOURCE = driver.getPageSource();
            webDriverWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(xpath))).click();
        }catch (Exception e){
            e.printStackTrace();

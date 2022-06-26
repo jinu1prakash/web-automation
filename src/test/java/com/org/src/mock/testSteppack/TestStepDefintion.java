@@ -1,5 +1,6 @@
 package com.org.src.mock.testSteppack;
 
+import com.org.web.automation.services.ElementService;
 import com.org.web.automation.services.ManageWebDriver;
 import com.org.web.automation.services.WaitService;
 import io.cucumber.java.After;
@@ -16,40 +17,30 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.FindBy;
 
 public class TestStepDefintion {
-    private WebDriver driver;
-    private WaitService waitService;
+    private WebDriver driver = ManageWebDriver.getDriver();
+    private WaitService waitService = new WaitService();
 
     @FindBy(xpath = "//input[@class='gLFyf gsfi']")
     public WebElement textBox;
     @FindBy(xpath = "//div[contains(text(),'I agree')]")
     public WebElement iAgree;
 
-    @Before
-    public void setUp() {
-        if (driver == null) {
-            WebDriverManager.chromedriver().setup();
-            driver = new ChromeDriver();
-            ManageWebDriver driverManager = new ManageWebDriver(driver);
-            waitService = new WaitService();
-            driver.manage().window().maximize();
-        }
-    }
-    @After
-    public void tearDown() {
-        if (driver!=null) {
-            driver.close();
-            driver.quit();
-        }
-    }
-
     @Given("^Navigate to Google Home$")
     public void navigate_to_google_home() throws Throwable {
-        driver.navigate().to("https://www.google.com/");
+        Executioner.elementService.openBrowser("https://www.google.com/");
+        //driver.navigate().to("https://www.google.com/");
     }
 
     @And("^I enter the text HelloWorld$")
     public void i_enter_the_text_helloworld() throws Throwable {
-        waitService.waitForVisibilityToClick("(//button[contains(text(),'')])[5]");
+        if(WaitService.PAGESOURCE.contains("Reject")){
+            waitService.waitForVisibilityToClick("//button//div[contains(text(),'Reject')]");
+            System.out.println("Clicked 1st Xpath");
+        }else{
+            waitService.waitForVisibilityToClick("(//button[contains(text(),'')])[4]");
+            System.out.println("Clicked 2nd Xpath");
+        }
+        //waitService.waitForVisibilityToClick("//button//div[contains(text(),'Reject')]");//(//button[contains(text(),'')])[4]
         driver.findElement(By.xpath("//input[@class='gLFyf gsfi']")).sendKeys("Hello World");
         driver.findElement(By.xpath("//input[@class='gLFyf gsfi']")).sendKeys(Keys.ENTER);
     }
